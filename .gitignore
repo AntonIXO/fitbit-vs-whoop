@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+# Private production snapshot and raw DB session UUID/timestamp export
+analysis/current_optihealth_insights_*.json
+analysis/sleep_reaudit/sessions.json
+# Article prose is maintained separately
+/draft.md
+/GLOSSARY.md
