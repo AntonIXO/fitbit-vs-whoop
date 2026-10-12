@@ -2,7 +2,7 @@
 
 ## Scope and provenance
 
-This is a fresh read-only extraction from `sleep_sessions`, restricted to Anton (`LOCAL_USER_ID`). Fitbit is the Google Health/Fitbit source `id=35`; WHOOP is source `id=2754` (`whoop:31695515`). A separate WHOOP account/source `2757` exists in the database but is not silently pooled. The extraction includes a one-day boundary buffer and writes the exact selected rows to `sessions.json`.
+This is a fresh read-only extraction from `sleep_sessions`, restricted to Anton (`9e73d06e-1006-4266-bde7-85659f5de69d`). Fitbit is the Google Health/Fitbit source `id=35`; WHOOP is source `id=2754` (`whoop:31695515`). A separate WHOOP account/source `2757` exists in the database but is not silently pooled. The extraction includes a one-day boundary buffer and writes the exact selected rows to `sessions.json`.
 
 `extract.py` sets PostgreSQL `default_transaction_read_only=on` and uses no writes. `compare.py` keeps Fitbit and WHOOP separate until same-night pairing. Pairing uses main sleep only (`is_nap=false`) and nearest start timestamps within six hours; it does not call a timestamp mismatch a physiological effect.
 
@@ -21,4 +21,9 @@ Run:
 cd /opt/article-fitbit-vs-whoop/analysis/sleep_reaudit
 /opt/article-fitbit-vs-whoop/.venv/bin/python extract.py
 /opt/article-fitbit-vs-whoop/.venv/bin/python compare.py
+/opt/article-fitbit-vs-whoop/.venv/bin/python fragmentation.py
 ```
+
+## Fitbit awake-stage fragmentation
+
+Across 71 P1 Fitbit main sleeps, the provider awakening count and timeline awake-run count both average **3.37/night**. The timeline contains **104 interior awake runs** (**1.46/night**), with a median duration of **10.5 min** and range **5–64.5 min**. Six ≤2-minute awake runs occur at sleep boundaries; no interior awake run is ≤2 minutes. WHOOP stores stage totals rather than an awake-run timeline, so an equivalent WHOOP episode count is unavailable. See `fragmentation.json`.
